@@ -1,3 +1,30 @@
+'''
+🧠 How to Use the Solver
+
+```bash
+python wordle_solver.py
+```
+
+1.  The solver will suggest a starting word (default: 'soare' or 'salet').
+2.  Enter that word into your game.
+3.  The solver will ask for feedback. Enter a 5-digit string representing the colors you received:
+    *   0: Grey/Miss (Letter not in word)
+    *   1: Yellow (Wrong position)
+    *   2: Green (Correct position)
+    
+    Example:
+        If the true word is ABACK and you guess CRANE:
+        *   C is yellow (1)
+        *   R is grey (0)
+        *   A is green (2)
+        *   N is grey (0)
+        *   E is grey (0)
+
+        You would type: `10200` into the solver.
+
+4.  The solver will calculate the entropy of all valid words and suggest the next best guess.
+'''
+
 from wordle_utils import *
 
 # Only possible solutions

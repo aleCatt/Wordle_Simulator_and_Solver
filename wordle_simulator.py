@@ -1,3 +1,19 @@
+'''
+🎮 How to Play
+
+
+```bash
+python wordle_simulator.py
+```
+
+1.  Type a 5-letter guess and press Enter.
+2.  The terminal will display your guess with color codes:
+    *   Green: Correct letter in the correct spot.
+    *   Yellow: Correct letter, but in the wrong spot.
+    *   Purple: Letter is not in the word. (Contrasts better with yellow)
+3.  You have 6 attempts to guess the word.
+'''
+
 import random
 from wordle_utils import *
 
