@@ -1,7 +1,6 @@
 '''
 🎮 How to Play
 
-
 ```bash
 python wordle_simulator.py
 ```
