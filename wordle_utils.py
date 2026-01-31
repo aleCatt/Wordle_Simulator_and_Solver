@@ -54,3 +54,23 @@ def calculate_entropy(guess: str, possible_solutions: list[str]) -> float:
         entropy += probability * info_bits
 
     return entropy
+
+def calculate_expected_remaining(guess: str, possible_solutions: list[str]) -> float:
+
+    pattern_counts = {}
+
+    for sol in possible_solutions:
+        pattern = evaluate_guess(guess, sol)
+        if pattern not in pattern_counts:
+            pattern_counts[pattern] = 0
+        pattern_counts[pattern] += 1
+    
+    num_solutions = len(possible_solutions)
+    expected_remaining = 0
+    
+    for pattern, count in pattern_counts.items():
+        probability = count / num_solutions
+        # After seeing this pattern, we'd have 'count' solutions left
+        expected_remaining += probability * count
+    
+    return expected_remaining
