@@ -41,7 +41,7 @@ known_letters = set()  # Letters we know are in the word
 correct_positions = {} # position -> letter
 
 # Initial guess, good ones: 'soare', 'salet', 'trace'
-best_word = 'salet'
+best_word = 'raise'
 
 print(f'Suggestion: {best_word}')
 
