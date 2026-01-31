@@ -10,17 +10,20 @@ COLORS = {
     -1 : '\033[0m'  # RESET
 }
 
+def load_words(path: str) -> list[str]:
+    with open(path, 'r') as file:
+        return [line.strip() for line in file]
+
 def evaluate_guess(guess: str, solution: str) -> list[int]:
 
     solution_chars = list(solution)
     pattern = [0] * 5
-
+    
     # Greens
     for i in range(5):
         if guess[i] == solution[i]: 
             pattern[i] = 2
             solution_chars[i] = None
-
     # Yellows
     for i in range(5):
         if pattern[i] == 2:
@@ -28,7 +31,7 @@ def evaluate_guess(guess: str, solution: str) -> list[int]:
         if guess[i] in solution_chars:
             pattern[i] = 1
             solution_chars.remove(guess[i]) # for doubles
-    
+
     return tuple(pattern)
 
 def filter_solutions(guess: str, pattern: list[int], possible_solutions: list[str]) -> list[str]:
@@ -74,3 +77,22 @@ def calculate_expected_remaining(guess: str, possible_solutions: list[str]) -> f
         expected_remaining += probability * count
     
     return expected_remaining
+
+def get_score(guess: str, possible_solutions: list[str], known_letters: set[str], correct_positions: dict[int: str]) -> float:
+    # Calculate base entropy
+    ent = calculate_entropy(guess, possible_solutions)
+    
+    # Calculate expected remaining solutions after this guess
+    expected_remaining = calculate_expected_remaining(guess, possible_solutions)
+    
+    # Combine metrics (normalized)
+    # Higher entropy = better, lower expected_remaining = better
+    score = ent - (expected_remaining / len(possible_solutions))
+    
+    # Bonus: prefer words that are actual solutions
+    if (guess in possible_solutions
+        and known_letters.issubset(set(guess))
+        and all(guess[pos] == letter for pos, letter in correct_positions.items())):
+        score += 0.5
+
+    return score

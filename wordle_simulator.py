@@ -1,6 +1,7 @@
 '''
 🎮 How to Play
 
+
 ```bash
 python wordle_simulator.py
 ```
@@ -16,12 +17,10 @@ python wordle_simulator.py
 import random
 from wordle_utils import *
 
-with open(POSSIBLE_SOLUTIONS_PATH, 'r') as solutions_file:
-    solution = random.choice(solutions_file.readlines()).strip()
+solution = random.choice(load_words(POSSIBLE_SOLUTIONS_PATH))
 
 # All allowed words
-with open(ALLOWED_GUESSES_PATH, 'r') as allowed_file:
-    allowed = [line.strip() for line in allowed_file]
+allowed = load_words(ALLOWED_GUESSES_PATH)
 
 def update_gamestate(guess: str, solution: str = solution) -> None:
     global gamestate
