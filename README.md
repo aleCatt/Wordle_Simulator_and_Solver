@@ -1,21 +1,24 @@
-# Wordle Simulator & Entropy Solver
+# Wordle Simulator & Solver
 
 ## 📂 Project Structure
 
-*   **`wordle_simulator.py`**: A fully playable version of Wordle that runs in your terminal with colored output.
-*   **`wordle_solver.py`**: An AI assistant that suggests the mathematically optimal next guess based on your current feedback.
-*   **`wordle_utils.py`**: Shared logic for game mechanics, pattern evaluation, and entropy calculation.
-*   **`wordle_solutions.txt`**: A list of possible target words (the "answer key").
-*   **`wordle_allowed_guesses.txt`**: A comprehensive list of all valid 5-letter words accepted as guesses.
+*   **`wordle_simulator.py`**: A fully playable Wordle game that runs in your terminal with colored output.
+*   **`wordle_solver.py`**: A script assistant that calculates the optimal next guess.
+*   **`wordle_utils.py`**: Shared logic for pattern matching, entropy calculation, and scoring.
+*   **`wordle_solutions.txt`**: A list of possible target words.
+*   **`wordle_allowed_guesses.txt`**: A comprehensive list of all valid 5-letter inputs.
 
 ### Setup
 Ensure all `.py` and `.txt` files are in the same directory.
 
 ## ℹ️ How the Solver Works
 
-The solver utilizes **Information Theory** (specifically Shannon Entropy) to maximize the information gained from every guess.
+The solver uses a **Hybrid Scoring System** ($Score$) that balances information gathering with the likelihood of winning.
 
-1.  **Filtering**: It takes the current list of possible solutions and removes any that do not match the feedback received so far.
-2.  **Entropy Calculation**: For every allowed guess, it calculates how much that guess would narrow down the remaining possibilities on average.
-    *   $E[I] = \sum_{p} P(p) \cdot \log_2(\frac{1}{P(p)})$
-3.  **Selection**: It suggests the word with the highest Entropy score. If a word is a potential solution *and* has high entropy, it is prioritized.
+1.  **Filtering**: It eliminates any words from the solution pool that do not match the feedback (Green/Yellow/Gray) received so far.
+2.  **Information Calculation**: It calculates **Shannon Entropy** ($E$) to measure how well a guess splits the remaining possibilities.
+3.  **Optimization**:
+    *   **Group Reduction**: It penalizes words that are expected to leave a large number of remaining candidates.
+    *   **Solution Bonus**: It adds a score boost ($+0.5$) if the guess is a **valid potential answer** that fits the current known letters.
+    
+    $$Score = Entropy - NormalizedRemaining + Bonus$$
