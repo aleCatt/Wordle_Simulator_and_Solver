@@ -22,3 +22,20 @@ The solver uses a **Hybrid Scoring System** ($Score$) that balances information 
     *   **Solution Bonus**: It adds a score boost ($+0.5$) if the guess is a **valid potential answer** that fits the current known letters.
     
     $$Score = Entropy - NormalizedRemaining + Bonus$$
+
+## 📊 Performance
+Tested against the full set of standard Wordle solutions (2,315 words).
+
+*   **Average Guesses**: `3.50`
+*   **Win Rate**: `100%`
+*   **Most Common Result**: 3 guesses
+
+### Guess Distribution
+```text
+1:    1 |  (0.0%)
+2:   97 | ██ (4.2%)
+3: 1066 | ███████████████████████ (46.0%)
+4: 1042 | ██████████████████████ (45.0%)
+5:  106 | ██ (4.6%)
+6:    3 |  (0.1%)
+```
