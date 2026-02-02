@@ -17,17 +17,25 @@ python wordle_simulator.py
 import random
 from wordle_utils import *
 
-def update_gamestate(gamestate: str, guess: str, solution: str) -> str:
-    color: list[int] = evaluate_guess(guess, solution)
+def update_gamestate(gamestate: str, guess: str, pattern: list[int]) -> str:
     for i in range(5):
-        gamestate += COLORS[color[i]] + guess[i] + COLORS[-1]
+        gamestate += COLORS[pattern[i]] + guess[i] + COLORS[-1]
     return gamestate + '\n'
+
+def display_keyboard(letters: dict[str, int]) -> None:
+    rows: list[str] = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm']
+    for i, row in enumerate(rows):
+        for letter in row:
+            print(f'{COLORS[letters[letter]]}{letter}{COLORS[-1]} ', end='')
+        print('\n' + ' ' * (i+1), end='')
+    print()
 
 def main() -> None:
     solution: str = random.choice(load_words(POSSIBLE_SOLUTIONS_PATH))
     # All allowed words
     allowed: list[str] = load_words(ALLOWED_GUESSES_PATH)
     gamestate: str = ''
+    letters: dict[str, int] = {chr(i): -1 for i in range(ord('a'), ord('z') + 1)}
 
     for guess in range(6):
         new_guess: str = input('Guess: ').lower()
@@ -35,8 +43,13 @@ def main() -> None:
             print('Not valid')
             new_guess: str = input('Guess: ').lower()
 
-        gamestate = update_gamestate(gamestate, new_guess, solution)
+        pattern: tuple[int] = evaluate_guess(new_guess, solution)
+        for i in range(5):
+            letters[new_guess[i]] = max(letters[new_guess[i]], pattern[i])
+
+        gamestate: str = update_gamestate(gamestate, new_guess, pattern)
         print(gamestate)
+        display_keyboard(letters)
 
         if new_guess == solution:
             break
