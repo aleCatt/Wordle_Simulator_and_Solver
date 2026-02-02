@@ -17,37 +17,31 @@ python wordle_simulator.py
 import random
 from wordle_utils import *
 
-solution = random.choice(load_words(POSSIBLE_SOLUTIONS_PATH))
-
-# All allowed words
-allowed = load_words(ALLOWED_GUESSES_PATH)
-
-def update_gamestate(guess: str, solution: str = solution) -> None:
-    global gamestate
-
-    color = evaluate_guess(guess, solution)
-
+def update_gamestate(gamestate: str, guess: str, solution: str) -> str:
+    color: list[int] = evaluate_guess(guess, solution)
     for i in range(5):
         gamestate += COLORS[color[i]] + guess[i] + COLORS[-1]
+    return gamestate + '\n'
 
-    gamestate += '\n'
+def main() -> None:
+    solution: str = random.choice(load_words(POSSIBLE_SOLUTIONS_PATH))
+    # All allowed words
+    allowed: list[str] = load_words(ALLOWED_GUESSES_PATH)
+    gamestate: str = ''
 
-    return 1
+    for guess in range(6):
+        new_guess: str = input('Guess: ').lower()
+        while new_guess not in allowed: 
+            print('Not valid')
+            new_guess: str = input('Guess: ').lower()
 
-gamestate = ''
+        gamestate = update_gamestate(gamestate, new_guess, solution)
+        print(gamestate)
 
-for guess in range(6):
-    
-    new_guess = input('Guess: ').lower()
+        if new_guess == solution:
+            break
 
-    while new_guess not in allowed: 
-        print('Not valid')
-        new_guess = input('Guess: ').lower()
+    print(f'The word was: {COLORS[2]}{solution}{COLORS[-1]}')
 
-    update_gamestate(new_guess)
-    print(gamestate)
-
-    if new_guess == solution:
-        break
-
-print(f'The word was: {COLORS[2]}{solution}')
+if __name__ == '__main__':
+    main()
