@@ -70,37 +70,3 @@ def get_score(guess: str, possible_solutions: list[str], known_letters: set[str]
         and all(guess[pos] == letter for pos, letter in correct_positions.items())):
         score += 0.5
     return score
-
-def get_suggestion(suggestion: str, pattern: tuple[int]) -> str:
-    global guessed, correct_positions, known_letters, possible_solutions, allowed
-    
-    # Update learned information from the guess we just made
-    guessed.append(suggestion)
-    for i, (letter, color) in enumerate(zip(suggestion, pattern)):
-        if color == 2:  # Green
-            correct_positions[i] = letter
-            known_letters.add(letter)
-        elif color == 1:  # Yellow
-            known_letters.add(letter)
-
-    # Filter possible solutions based on feedback
-    possible_solutions = filter_solutions(suggestion, pattern, possible_solutions)
-    print(f'Remaining solutions: {len(possible_solutions)}')
-
-    suggestion: str = ''
-    # Check if we have no valid solutions left (likely a feedback error)
-    if len(possible_solutions) == 0:
-        print('No valid solutions remaining! Please check your feedback patterns.')
-    # If we're down to very few solutions, just pick one
-    elif len(possible_solutions) <= 2:
-        suggestion = possible_solutions[0]
-    # Otherwise, calculate the best next guess
-    else:
-        best_score: float = -float('inf')
-        for word in allowed:
-            if word in guessed: continue
-            score: float = get_score(word, possible_solutions, known_letters, correct_positions)
-            if score > best_score:
-                best_score = score
-                suggestion = word
-    return suggestion
