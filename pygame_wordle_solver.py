@@ -1,4 +1,4 @@
-import pygame # type: ignore (To hide Pylance(reportMissingimports))
+import pygame
 from sys import exit
 from wordle_utils import (load_words, filter_solutions, get_score,
                           POSSIBLE_SOLUTIONS_PATH, ALLOWED_GUESSES_PATH)
