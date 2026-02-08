@@ -1,12 +1,15 @@
-# Wordle Simulator and Information Theoretic Solver
+# Wordle Simulator and Solver
 
 This repository contains a comprehensive suite of Python tools designed to simulate the game mechanism of Wordle and/or solve it using an optimized information-theoretic approach. The project includes a fully functional terminal-based game simulator, a command-line solver, and a Graphical User Interface (GUI) solver built with Pygame.
 
-![Application Screenshot](solverUI_image.png)
+<p align="center">
+  <img src="solverUI_image.png)" alt="Wordle Solver GUI" width="50%"/>
+</p>
 
 ## Table of Contents
 - [Overview](#overview)
 - [Algorithmic Approach](#algorithmic-approach)
+- [Performance](#performance)
 - [Installation and Requirements](#installation-and-requirements)
 - [Usage](#usage)
   - [GUI Solver](#gui-solver)
@@ -31,6 +34,23 @@ The solver logic relies on **Shannon Entropy**. For every potential guess $w$, t
     *   Maximize information gain (high entropy).
     *   Minimize the average pool size of remaining candidates.
     *   Are present in the potential solution set (preferring valid answers over obscure dictionary words when scores are similar).
+
+## Performance
+
+Tested against the full set of standard Wordle solutions (2315 words).
+* Average Guesses: 3.50
+* Win Rate: 100%
+* Most Common Result: 3 guesses
+  
+Guess Distribution
+```
+1:    1 |  (0.0%)
+2:   97 | ██ (4.2%)
+3: 1066 | ███████████████████████ (46.0%)
+4: 1042 | ██████████████████████ (45.0%)
+5:  106 | ██ (4.6%)
+6:    3 |  (0.1%)
+```
 
 ## Installation and Requirements
 
