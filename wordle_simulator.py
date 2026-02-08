@@ -15,7 +15,15 @@ python wordle_simulator.py
 '''
 
 import random
-from wordle_utils import *
+from wordle_utils import (load_words, evaluate_guess, 
+                          POSSIBLE_SOLUTIONS_PATH, ALLOWED_GUESSES_PATH)
+
+COLORS: dict[int, str] = {
+    0 : '\033[95m', # Purple (Contrasts well with yellow)
+    2 : '\033[92m', # Green
+    1 : '\033[93m', # Yellow
+    -1 : '\033[0m'  # RESET
+}
 
 def update_gamestate(gamestate: str, guess: str, pattern: list[int]) -> str:
     for i in range(5):
@@ -35,6 +43,7 @@ def main() -> None:
     # All allowed words
     allowed: list[str] = load_words(ALLOWED_GUESSES_PATH)
     gamestate: str = ''
+    # keyboard colors
     letters: dict[str, int] = {chr(i): -1 for i in range(ord('a'), ord('z') + 1)}
 
     for guess in range(6):
@@ -44,7 +53,7 @@ def main() -> None:
             new_guess: str = input('Guess: ').lower()
 
         pattern: tuple[int] = evaluate_guess(new_guess, solution)
-        for i in range(5):
+        for i in range(5): # update keyboard colors
             letters[new_guess[i]] = max(letters[new_guess[i]], pattern[i])
 
         gamestate: str = update_gamestate(gamestate, new_guess, pattern)
