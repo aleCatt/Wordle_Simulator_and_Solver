@@ -3,7 +3,7 @@
 This repository contains a comprehensive suite of Python tools designed to simulate the game mechanism of Wordle and/or solve it using an optimized information-theoretic approach. The project includes a fully functional terminal-based game simulator, a command-line solver, and a Graphical User Interface (GUI) solver built with Pygame.
 
 <p align="center">
-  <img src="solverUI_image.png)" alt="Wordle Solver GUI" width="50%"/>
+  <img src="solverUI_image.png" alt="Wordle Solver GUI" width="50%"/>
 </p>
 
 ## Table of Contents
