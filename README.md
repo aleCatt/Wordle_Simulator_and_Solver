@@ -87,11 +87,11 @@ The Graphical User Interface provides the most intuitive experience for solving 
 2.  The solver will suggest an initial opening word (default: `RAISE`). Enter this word into your external Wordle game.
 3.  Observe the colors returned by the game.
 4.  **Input the feedback:** Click the colored buttons in the GUI to replicate the pattern shown in your game.
-    *   **Gray Button:** Letter absent.
-    *   **Yellow Button:** Letter present, wrong position.
-    *   **Green Button:** Letter present, correct position.
-    *   *Note: Use the DEL button to correct mistakes.*
-5.  Click **Enter** to submit the pattern. The solver will process the data and render the next optimal guess.
+    *   **Gray Button (or key `0`):** Letter absent.
+    *   **Yellow Button (or key `1`):** Letter present, wrong position.
+    *   **Green Button (or key `2`):** Letter present, correct position.
+    *   *Note: Use the DEL button (or key) to correct mistakes.*
+5.  Click **Enter button (or key)** to submit the pattern. The solver will process the data and render the next optimal guess.
 
 ### Terminal Solver
 A lightweight, text-only interface for the solver algorithm.
