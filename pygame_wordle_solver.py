@@ -1,4 +1,4 @@
-import pygame
+import pygame # type: ignore (To hide Pylance(reportMissingimports))
 from sys import exit
 from wordle_utils import (load_words, filter_solutions, get_score,
                           POSSIBLE_SOLUTIONS_PATH, ALLOWED_GUESSES_PATH)
@@ -193,6 +193,27 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+            # key press logic
+            if event.type == pygame.KEYDOWN:
+                # escape -> quit
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    exit()
+                # gray
+                elif event.key == pygame.K_0:
+                    update_pattern(COLORS['GRAY'])
+                # yellow
+                elif event.key == pygame.K_1:
+                    update_pattern(COLORS['YELLOW'])
+                # green
+                elif event.key == pygame.K_2:
+                    update_pattern(COLORS['GREEN'])
+                # DEL
+                elif event.key == pygame.K_BACKSPACE:
+                    update_pattern(COLORS['RED'])
+                # Enter    
+                elif event.key == pygame.K_RETURN:
+                    update_pattern(COLORS['BLUE'])
 
         window.fill(COLORS['BACKGROUND'])
         for letter in letters:
