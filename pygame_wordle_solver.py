@@ -1,5 +1,4 @@
 import pygame # type: ignore (To hide Pylance(reportMissingimports))
-from sys import exit
 from wordle_utils import WordleSolver
                           
 COLORS: dict[str, str] = {'BACKGROUND': '#191919','TEXT': '#F8F8F8', 
