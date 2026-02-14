@@ -46,7 +46,7 @@ def main() -> None:
     # keyboard colors
     letters: dict[str, int] = {chr(i): -1 for i in range(ord('a'), ord('z') + 1)}
 
-    for guess in range(6):
+    for _ in range(6):
         new_guess: str = input('Guess: ').lower()
         while new_guess not in allowed: 
             print('Not valid')
