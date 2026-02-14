@@ -24,9 +24,6 @@ def evaluate_guess(guess: str, solution: str) -> tuple[int]:
             solution_chars.remove(guess[i]) # for doubles
     return tuple(pattern)
 
-def filter_solutions(guess: str, pattern: tuple[int], possible_solutions: list[str]) -> list[str]:
-    return [sol for sol in possible_solutions if evaluate_guess(guess, sol) == pattern]
-
 def get_pattern_counts(guess: str, possible_solutions: list[str]) -> dict[tuple[int], int]:
     pattern_counts: dict[tuple[int], int] = {}
     for sol in possible_solutions:
@@ -70,3 +67,43 @@ def get_score(guess: str, possible_solutions: list[str], known_letters: set[str]
         and all(guess[pos] == letter for pos, letter in correct_positions.items())):
         score += 0.5
     return score
+
+class WordleSolver:
+    def __init__(self, initial_guess: str = 'raise') -> None:
+        self.possible_solutions: list[str] = load_words(POSSIBLE_SOLUTIONS_PATH)
+        self.allowed: list[str] = load_words(ALLOWED_GUESSES_PATH)
+
+        self.suggestion: str = initial_guess
+        self.guessed: list[str] = [] # list of words we already guessed
+        self.known_letters: set[str] = set() # set pf letters we know are in the solution
+        self.correct_positions: dict[int, str] = {} # position : letter
+    
+    def process_feedback(self, pattern: tuple[int]) -> None:
+        
+        # Update remaining possible solutions
+        self.possible_solutions = [sol for sol in self.possible_solutions if evaluate_guess(self.suggestion, sol) == pattern]
+        
+        # Update known informatioon
+        self.guessed.append(self.suggestion)
+        for i, (letter, color) in enumerate(zip(self.suggestion, pattern)):
+            if color == 2:  # Green
+                self.correct_positions[i] = letter
+                self.known_letters.add(letter)
+            elif color == 1:  # Yellow
+                self.known_letters.add(letter)
+
+        if len(self.possible_solutions) == 0:
+            raise ValueError('Invalid feedback or word not present in database')
+
+        # If we're down to very few solutions, just pick one
+        elif len(self.possible_solutions) <= 2:
+            self.suggestion = self.possible_solutions[0]
+        # Otherwise, calculate the best next guess
+        else:
+            best_score: float = -float('inf')
+            for word in self.allowed:
+                if word in self.guessed: continue
+                score: float = get_score(word, self.possible_solutions, self.known_letters, self.correct_positions)
+                if score > best_score:
+                    best_score = score
+                    self.suggestion = word
